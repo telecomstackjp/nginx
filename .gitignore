@@ -1,0 +1,21 @@
+# Logs
+*.log
+/logs
+
+# Dependencies
+node_modules/
+venv/
+env/
+
+# Temporary files
+tmp/
+*.tmp
+*.swp
+
+# Sensitive configuration files
+.env
+config.ini
+
+# Docker-related
+/data/
+docker-compose.override.yml
