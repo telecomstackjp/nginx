@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  nginx:
+    image: nginx:1.25.4-alpine # Use a specific version
+    container_name: nginx-coolify
+    ports:
+      - "80:80"  # Only map port 80 for HTTP; Coolify handles HTTPS
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/html:/usr/share/nginx/html # Your website files
+      # Remove certs volume if using Coolify's proxy
+      # - ./certs:/etc/nginx/certs # If you handle SSL in nginx
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]  # Check if the website is accessible
+      interval: 30s  # Check every 30 seconds
+      timeout: 10s   # Timeout after 10 seconds
+      retries: 3     # Retry 3 times before considering unhealthy
+
+networks:
+  default:
+    name: coolify-network # Crucial for Coolify to manage
